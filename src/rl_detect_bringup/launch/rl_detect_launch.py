@@ -1,4 +1,7 @@
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 import os
 
@@ -11,10 +14,34 @@ def generate_launch_description():
     camera_info_sub_topic = '/oak/stereo/camera_info' # <--- UPDATE THIS IF YOUR CAMERA INFO TOPIC IS DIFFERENT
     color_image_sub_topic = '/oak/rgb/image_raw' # <--- UPDATE THIS IF YOUR COLOR IMAGE TOPIC IS DIFFERENT
     depth_image_sub_topic = '/oak/stereo/image_raw' # <--- UPDATE THIS IF YOUR DEPTH IMAGE TOPIC IS DIFFERENT
-    # camera_info_sub_topic = '/camera/camera/color/camera_info' # <--- UPDATE THIS IF YOUR CAMERA INFO TOPIC IS DIFFERENT
-    # color_image_sub_topic = '/camera/camera/color/image_raw' # <--- UPDATE THIS IF YOUR COLOR IMAGE TOPIC IS DIFFERENT
-    # depth_image_sub_topic = '/camera/camera/aligned_depth_to_color/image_raw' # <--- UPDATE THIS IF YOUR DEPTH IMAGE TOPIC IS DIFFERENT
+    # camera_info_sub_topic = '/camera/camera/color/camera_info' # for realsense d435i, update if using different camera or topic names
+    # color_image_sub_topic = '/camera/camera/color/image_raw' # for realsense d435i, update if using different camera or topic names
+    # depth_image_sub_topic = '/camera/camera/aligned_depth_to_color/image_raw' # for realsense d435i, update if using different camera or topic names
+    start_yolo = LaunchConfiguration('start_yolo')
+    start_group = LaunchConfiguration('start_group')
+    start_forecasting = LaunchConfiguration('start_forecasting')
+    start_face = LaunchConfiguration('start_face')
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'start_yolo',
+            default_value='true',
+            description='Start main YOLO detection node'
+        ),
+        DeclareLaunchArgument(
+            'start_group',
+            default_value='true',
+            description='Start group detection node'
+        ),
+        DeclareLaunchArgument(
+            'start_forecasting',
+            default_value='true',
+            description='Start trajectory forecasting node'
+        ),
+        DeclareLaunchArgument(
+            'start_face',
+            default_value='true',
+            description='Start face recognition node'
+        ),
 
         # Main detection + tracking node
         Node(
@@ -22,6 +49,7 @@ def generate_launch_description():
             executable='intel_publisher_yolo_3dbbox_node2',
             name='yolo_detector_node',
             output='screen',
+            condition=IfCondition(start_yolo),
             parameters=[
                 {'model':              'yoloe-26m-seg.pt'},
                 {'classes':            'person,chair'},
@@ -42,6 +70,7 @@ def generate_launch_description():
             executable='group_detection_node',
             name='group_detection_node',
             output='screen',
+            condition=IfCondition(start_group),
             parameters=[
                 {'target_class':              'person'},
                 {'eps':    1.5},
@@ -56,6 +85,7 @@ def generate_launch_description():
             executable='forecasting_node',
             name='forecasting_node',
             output='screen',
+            condition=IfCondition(start_forecasting),
             parameters=[
                 {'traj_model_arch': 'model1'},  # Options: 'lstm', 'model1', 'model2', 'model3'
                 {'traj_model_ckpt': checkpoint_path}, 
@@ -72,6 +102,8 @@ def generate_launch_description():
             package='rl_detect',
             executable='face_recognition_node',
             name='face_recognition_node',
+            output='screen',
+            condition=IfCondition(start_face),
             parameters=[{
                 'det_weight':        det_checkpoint_path,
                 'rec_weight':        rec_checkpoint_path,
