@@ -95,7 +95,7 @@ ros2 launch rl_detect_bringup rl_detect_launch.py \
   start_face:=false
 ```
 ## Note
-Different classes of interest, ros2 topics to be used can be specified in
+Different classes of interest, ros2 topics to be used or any parameters can be specified/changed in
 ```
 src/rl_detect_bringup/launch/rl_detect_launch.py
 ```
