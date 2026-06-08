@@ -1,0 +1,23 @@
+/oak:
+  ros__parameters:
+    # Align depth to RGB (equivalent to align_depth.enable:=true)
+    stereo:
+      i_aligned: true
+      i_synched: true
+
+    # RGB Profile (equivalent to rgb_camera.profile:=640x480x30)
+    rgb:
+      i_width: 640
+      i_height: 400
+      i_fps: 30.0
+      i_synched: true
+
+    # Depth Profile (equivalent to depth_module.profile:=640x400x30)
+    left:
+      i_width: 640
+      i_height: 400
+      i_fps: 30.0
+    right:
+      i_width: 640
+      i_height: 400
+      i_fps: 30.0
