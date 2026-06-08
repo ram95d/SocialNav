@@ -58,7 +58,7 @@ and save in
 ```
 src/rl_detect/rl_detect/
 ```
-For person recognition, save images of each person in separate folder with name of person as the folder name 
+For person recognition, save images of each person in separate folder with name of person as the folder name and place under
 ```
 src/rl_detect/rl_detect/faces2
 ```
