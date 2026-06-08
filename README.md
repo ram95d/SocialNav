@@ -53,6 +53,15 @@ After installing ROS 2 and the required packages, clone the repository of projec
 ```
 git clone https://github.com/ram95d/SocialNav.git
 ```
+Download weights, checkpoint from [Google Drive](https://drive.google.com/drive/folders/1DCjIAAlv68Ip-5LQ3c92_a3NcxJ9QB8S?usp=sharing)
+and save in 
+```
+src/rl_detect/rl_detect/
+```
+For person recognition, save images of each person in separate folder with name of person as the folder name 
+```
+src/rl_detect/rl_detect/faces2
+```
 Build the project
 ```
 cd SocialNav
