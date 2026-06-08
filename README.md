@@ -53,7 +53,7 @@ After installing ROS 2 and the required packages, clone the repository of projec
 ```
 git clone https://github.com/ram95d/SocialNav.git
 ```
-Download weights, checkpoint from [Google Drive](https://drive.google.com/drive/folders/1DCjIAAlv68Ip-5LQ3c92_a3NcxJ9QB8S?usp=sharing)
+Download weights, checkpoint from [Google Drive](https://drive.google.com/drive/folders/1KlHL8KlRa3_vG4Jh6XoWGSFam-1FTp6k?usp=sharing)
 and save in 
 ```
 src/rl_detect/rl_detect/
