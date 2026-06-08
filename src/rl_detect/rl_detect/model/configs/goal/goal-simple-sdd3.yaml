@@ -1,0 +1,91 @@
+# lightning.pytorch==2.2.0.post0
+experiment_name: goal
+seed_everything: 42
+
+model:
+  class_path: model.goal.map_goal_net.MapGoalNetLitModule
+  init_args:
+    obs_len: 8
+    pred_len: 12
+    num_samples: 20
+    map_size: 128
+    max_map_size: 1000
+    kernel_length: 30
+    sigma: 1.5
+    encoder_channels: [32, 32, 32, 32]
+    bottleneck_channels: [64, 32]
+    decoder_channels: [32, 32, 32]
+    downsampler: conv     # conv, maxpool
+    upsampler: convt      # convt, upsample
+    num_residual_blocks: 1
+    encoder_norm_groups: [16, 16, 16]
+    decoder_norm_groups: [16, 16, 16]
+    teacher_ckpt: goal.ckpt
+    teacher_pretrain_epochs: 10
+
+data:
+  class_path: model.datasets.dataset.TrajectoryDataModule
+  init_args:
+    path: model/data/sdd
+    homographies_path: model/data/homographies/sdd
+    coord_system: image
+    frame_delta: 12
+    only_visible: true
+    fill_missing: false
+    min_obs_len: 8
+    min_pred_len: 12
+    max_step_size: 50
+    cluster_labels_path: null
+    center_scene: false
+    rotate_prob: 0
+    flip_prob: 0
+    noise_prob: 0
+    noise_scale: 0
+    batch_size: 32
+    num_workers: 4
+
+optimizer:
+  class_path: torch.optim.Adam
+  init_args:
+    lr: 0.0003
+    betas:
+    - 0.9
+    - 0.999
+    eps: 1.0e-08
+    weight_decay: 0.0
+
+lr_scheduler:
+  class_path: lightning.pytorch.cli.ReduceLROnPlateau
+  init_args:
+    monitor: val_fde
+    mode: min
+    factor: 0.5
+    patience: 5
+    threshold: 0.0001
+    threshold_mode: rel
+    cooldown: 0
+    min_lr: 0.0
+    eps: 1.0e-08
+
+trainer:
+  accelerator: gpu
+  strategy: auto
+  devices: [0]
+  precision: 32
+  logger:
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      save_dir: logs
+      default_hp_metric: false
+  callbacks:
+  - class_path: lightning.pytorch.callbacks.EarlyStopping
+    init_args:
+      monitor: val_fde
+      patience: 10
+      verbose: false
+      mode: min
+  max_epochs: 100
+  check_val_every_n_epoch: 1
+  gradient_clip_val: null
+  gradient_clip_algorithm: null
+  deterministic: null

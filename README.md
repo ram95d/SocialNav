@@ -5,8 +5,14 @@ The method is tested for ROS2 Humble on Ubuntu 22.04 with IntelRealsense D455 ca
 ## Environment setup
 Create a new conda environment
 ```
-conda create -n opennav python=3.10
-conda activate opennav
+conda create -n socialnav python=3.10
+conda activate socialnav
+```
+
+Or 
+```
+conda env create -f environment.yml
+conda activate socialnav
 ```
 
 Install dependencies

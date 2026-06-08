@@ -1,0 +1,80 @@
+# lightning.pytorch==2.2.0.post0
+experiment_name: autoenc-2
+seed_everything: 42
+
+model:
+  class_path: model.mask_autoenc.mask_autoencoder.MaskConvAutoencoderLitModule
+  init_args:
+    input_size: 200
+data:
+  class_path: model.datasets.mask_dataset.MaskDataModule
+  init_args:
+    width: 200
+    height: 200
+    train_seed: 42
+    val_seed: 43
+    val_size: 100
+    test_seed: 44
+    test_size: 100
+    batch_size: 8
+
+optimizer:
+  class_path: torch.optim.Adam
+  init_args:
+    lr: 0.0003
+    betas:
+    - 0.9
+    - 0.999
+    eps: 1.0e-08
+    weight_decay: 0.0
+
+# lr_scheduler:
+#   class_path: lightning.pytorch.cli.ReduceLROnPlateau
+#   init_args:
+#     monitor: val_loss
+#     mode: min
+#     factor: 0.5
+#     patience: 5
+#     threshold: 0.0001
+#     threshold_mode: rel
+#     cooldown: 0
+#     min_lr: 0.0
+#     eps: 1.0e-08
+
+# lr_scheduler:
+#   class_path: torch.optim.lr_scheduler.OneCycleLR
+#   init_args:
+#     max_lr: 0.005
+#     total_steps: null
+#     epochs: 2500
+#     steps_per_epoch: 1
+#     pct_start: 0.3
+#     anneal_strategy: cos
+#     cycle_momentum: true
+#     base_momentum: 0.85
+#     max_momentum: 0.95
+#     div_factor: 25
+#     final_div_factor: 10000
+
+trainer:
+  accelerator: gpu
+  strategy: auto
+  devices: [0]
+  precision: 32
+  logger:
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      save_dir: logs
+      default_hp_metric: false
+  # callbacks:
+  # - class_path: lightning.pytorch.callbacks.EarlyStopping
+  #   init_args:
+  #     monitor: val_loss
+  #     patience: 50
+  #     verbose: false
+  #     mode: min
+  max_epochs: 2500
+  check_val_every_n_epoch: 1
+  gradient_clip_val: null
+  gradient_clip_algorithm: null
+  deterministic: null
