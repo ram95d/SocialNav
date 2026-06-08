@@ -86,6 +86,14 @@ For visualization, Open a new terminal with ROS2 sourced and run
 ```
 rviz2
 ```
+To turn on off nodes
+```
+ros2 launch rl_detect_bringup rl_detect_launch.py \
+  start_yolo:=True \
+  start_group:=false \
+  start_forecasting:=false \
+  start_face:=false
+```
 ## Note
 Different classes of interest, ros2 topics to be used can be specified in
 ```
