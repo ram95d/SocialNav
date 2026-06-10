@@ -1,7 +1,13 @@
 #  SocialNav: Integrated Perception System for Smart Walker 
 **SocialNav** is a unified, ROS2-based perception backbone designed for smart social walkers. It enables the assistive devices to safely navigate complex environments by understanding both spatial obstacles and socially relevant human behaviors in real time.
-The method is tested for ROS2 Humble on Ubuntu 22.04 with IntelRealsense D455 camera and OAK-D Pro W
+## 🚀 Key Features & Solved Tasks
 
+#### 1. Zero-Shot Open Vocabulary 3D Object Detection
+#### 2. Padestrian Trajectory Forecasting
+#### 3. Conversational Group Detection
+#### 4. Real-Time Person Re-Identification (Re-ID)
+
+The method is tested for ROS2 Humble on Ubuntu 22.04 with IntelRealsense D455 camera and OAK-D Pro W
 ## Environment setup
 Create a new conda environment
 ```
@@ -99,3 +105,6 @@ Different classes of interest, ros2 topics to be used or any parameters can be s
 ```
 src/rl_detect_bringup/launch/rl_detect_launch.py
 ```
+## Acknowledgement
+The face-reidentification code is build upon [face-reidentification](https://yakhyo.github.io/face-reidentification/).
+
