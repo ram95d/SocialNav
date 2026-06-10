@@ -1,5 +1,5 @@
 #  SocialNav: Integrated Perception System for Smart Walker 
-
+**SocialNav** is a unified, ROS2-based perception backbone designed for smart social walkers. It enables the assistive devices to safely navigate complex environments by understanding both spatial obstacles and socially relevant human behaviors in real time.
 The method is tested for ROS2 Humble on Ubuntu 22.04 with IntelRealsense D455 camera and OAK-D Pro W
 
 ## Environment setup
