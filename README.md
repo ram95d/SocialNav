@@ -111,3 +111,34 @@ src/rl_detect_bringup/launch/rl_detect_launch.py
 ## Acknowledgement
 The face-reidentification code is build upon [face-reidentification](https://yakhyo.github.io/face-reidentification/).
 
+## Citation
+```
+@InProceedings{10.1007/978-3-031-92591-7_23,
+author="Rahman, Muhammad Rameez ur
+and Simonetto, Piero
+and Polato, Anna
+and Pasti, Francesco
+and Tonin, Luca
+and Vascon, Sebastiano",
+title="OpenNav: Efficient Open Vocabulary 3D Object Detection for Smart Wheelchair Navigation",
+booktitle="Computer Vision -- ECCV 2024 Workshops",
+year="2025",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="372--387",
+isbn="978-3-031-92591-7"
+}
+```
+```
+@INPROCEEDINGS{11229361,
+  author={Rosin, Giacomo and Ur Rahman, Muhammad Rameez and Vascon, Sebastiano},
+  booktitle={2025 International Joint Conference on Neural Networks (IJCNN)}, 
+  title={ECAM: A Contrastive Learning Approach to Avoid Environmental Collision in Trajectory Forecasting}, 
+  year={2025},
+  volume={},
+  number={},
+  pages={1-8},
+  keywords={Pedestrians;Surveillance;Neural networks;Contrastive learning;Predictive models;Trajectory;Collision avoidance;Forecasting;Robots;Autonomous vehicles},
+  doi={10.1109/IJCNN64981.2025.11229361}}
+```
+
