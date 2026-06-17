@@ -15,8 +15,8 @@ from rl_detect.model.rnn_model import RNNLitModule
 from rl_detect.model.model1 import Model1LitModule
 from rl_detect.model.model2 import Model2LitModule
 from rl_detect.model.model3 import Model3LitModule
-from nav_msgs.msg import Path
-from geometry_msgs.msg import PoseStamped
+# from nav_msgs.msg import Path
+# from geometry_msgs.msg import PoseStamped
 from builtin_interfaces.msg import Duration
 COLORS = [
     (0, 102, 255), (0, 183, 255), (0, 255, 255), (0, 255, 183),
@@ -70,15 +70,15 @@ class TrajectoryForecastingNode(Node):
         self.pub_forecast = self.create_publisher(
             MarkerArray, '/outputs/forecasted_trajectories', 10)
         self.get_logger().info("Trajectory Forecasting Node Initialized.")
-        self.path_publishers = {}
-    def _get_path_publisher(self, track_id: int):
-        if track_id not in self.path_publishers:
-            topic = f'/outputs/forecasted_path/agent_{track_id}'
-            self.path_publishers[track_id] = self.create_publisher(
-                Path, topic, 10
-            )
-            self.get_logger().info(f"Created path publisher for agent {track_id}")
-        return self.path_publishers[track_id]
+        # self.path_publishers = {}
+    # def _get_path_publisher(self, track_id: int):
+    #     if track_id not in self.path_publishers:
+    #         topic = f'/outputs/forecasted_path/agent_{track_id}'
+    #         self.path_publishers[track_id] = self.create_publisher(
+    #             Path, topic, 10
+    #         )
+    #         self.get_logger().info(f"Created path publisher for agent {track_id}")
+    #     return self.path_publishers[track_id]
     def load_traj_model(self):
         arch = self.get_parameter('traj_model_arch').value
         ckpt = self.get_parameter('traj_model_ckpt').value
@@ -245,8 +245,8 @@ class TrajectoryForecastingNode(Node):
                 
                 marker.scale.x = 0.05  
                 marker.color = color
-                path_msg = Path()
-                path_msg.header = header
+                # path_msg = Path()
+                # path_msg.header = header
                 for step in range(pred_traj.shape[0]):
                     pt = pred_traj[step]
                     p = Point()
@@ -254,14 +254,14 @@ class TrajectoryForecastingNode(Node):
                     p.y = float(y_height) # Draw the line at the object's vertical center
                     p.z = float(pt[1])
                     marker.points.append(p)
-                    ps = PoseStamped()
-                    ps.header = header
-                    ps.pose.position.x = float(pred_traj[step, 0])
-                    ps.pose.position.y = float(y_height)
-                    ps.pose.position.z = float(pred_traj[step, 1])
-                    path_msg.poses.append(ps)
+                    # ps = PoseStamped()
+                    # ps.header = header
+                    # ps.pose.position.x = float(pred_traj[step, 0])
+                    # ps.pose.position.y = float(y_height)
+                    # ps.pose.position.z = float(pred_traj[step, 1])
+                    # path_msg.poses.append(ps)
                 marker_array.markers.append(marker)
-                self._get_path_publisher(track_id).publish(path_msg)
+                # self._get_path_publisher(track_id).publish(path_msg)
         self.pub_forecast.publish(marker_array)
         # self.pub_path.publish(path_msg)
     def _remove_track(self, track_id: int):
@@ -269,9 +269,9 @@ class TrajectoryForecastingNode(Node):
         self.last_seen.pop(track_id, None)
         self.last_y_heights.pop(track_id, None)
 
-        if track_id in self.path_publishers:
-            self.destroy_publisher(self.path_publishers.pop(track_id))
-            self.get_logger().info(f"Destroyed path publisher for agent {track_id}")
+        # if track_id in self.path_publishers:
+            # self.destroy_publisher(self.path_publishers.pop(track_id))
+            # self.get_logger().info(f"Destroyed path publisher for agent {track_id}")
 def main(args=None):
     rclpy.init(args=args)
     node = TrajectoryForecastingNode()
